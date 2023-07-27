@@ -1,6 +1,5 @@
 package com.evidyaloka.vneed.models;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,13 +7,10 @@ import java.io.Serializable;
 @Data
 public class ResponseResult implements Serializable {
 
-    @ApiModelProperty(value = "status code")
     private Integer code;
 
-    @ApiModelProperty(value = "Prompt information")
     private String msg;
 
-    @ApiModelProperty(value = "Return data")
     private Object data;
 
     private static ResponseResult resultData(Integer code, String msg, Object data) {

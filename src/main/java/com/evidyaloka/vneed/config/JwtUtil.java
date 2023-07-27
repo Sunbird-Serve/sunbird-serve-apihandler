@@ -8,7 +8,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.evidyaloka.vneed.models.ResponseResult;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -59,7 +58,7 @@ public class JwtUtil {
         HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
         // Get the token information from the request header
         String token = request.getHeader("Authorization");
-        if (StringUtils.isBlank(token)) {
+        if (token.length() == 0) {
             return null;
         }
         try {
@@ -86,7 +85,7 @@ public class JwtUtil {
         HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
         // Get the token information from the request header
         String token = request.getHeader("Authorization");
-        if (StringUtils.isBlank(token)) {
+        if (token.length() == 0) {
             return ResponseResult.error(401, "User information has expired，please login again");
         }
         try {

@@ -11,12 +11,13 @@ RUN gradle build
 
 # TODO: check slim version of eclipse-temurin:17 and update it here
 FROM eclipse-temurin:17
-COPY --from=build /home/gradle/src/build/libs/*SNAPSHOT.jar /usr/src/app/app.jar
+RUN mkdir /usr/src/app
+COPY --from=build /home/gradle/src/build/libs/*SNAPSHOT.war /usr/src/app/app.war
 USER root
 
-EXPOSE 8080
+EXPOSE 8081
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get install curl
 
-CMD ["java", "-jar", "/usr/src/app/app.jar"]
+CMD ["java", "-jar", "/usr/src/app/app.war"]
