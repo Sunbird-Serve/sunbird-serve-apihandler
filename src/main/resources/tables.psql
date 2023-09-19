@@ -1,0 +1,49 @@
+CREATE TABLE need(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	need_type_id UUID NOT NULL,
+   	description TEXT DEFAULT NULL,
+	need_purpose TEXT DEFAULT NULL,
+	entity_id UUID NOT NULL,
+	user_id UUID NOT NULL,
+	requirement_id UUID NOT NULL,
+	name VARCHAR(255) DEFAULT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'New',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE entity(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	website VARCHAR(255) DEFAULT NULL,
+	name VARCHAR(255) DEFAULT NULL,
+	category VARCHAR(255) DEFAULT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'New',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE need_requirement(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	skill_details TEXT DEFAULT NULL,
+	frequency TEXT DEFAULT NULL,
+	priority VARCHAR(255) DEFAULT null;
+	volunteers_required VARCHAR(255) DEFAULT NULL,
+	start_date TIMESTAMP NOT NULL,
+	end_date TIMESTAMP NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE need_type(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	description TEXT DEFAULT NULL,
+	taxonomy_id UUID NOT NULL,
+	user_id UUID NOT NULL,
+	requirement_id UUID NOT NULL,
+	onboarding_id UUID NOT NULL,
+	name VARCHAR(255) DEFAULT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'New',
+	task_type VARCHAR(50) NOT NULL DEFAULT 'Task',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
