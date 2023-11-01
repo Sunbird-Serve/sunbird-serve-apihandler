@@ -1,6 +1,8 @@
 package com.evidyaloka.gateway.models.response;
 
-import com.evidyaloka.gateway.models.Need.*;
+import com.evidyaloka.gateway.models.Need.NeedRequirement;
+import com.evidyaloka.gateway.models.Need.Occurrence;
+import com.evidyaloka.gateway.models.Need.TimeSlot;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,16 +11,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-@Data
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NeedEntityAndRequirement {
-    private Need need;
+public class NeedRequirementResponse {
     private Optional<NeedRequirement> needRequirement;
     private Optional<Occurrence> occurrence;
     private List<TimeSlot> timeSlots;
-    private Optional<Entity> entity;
-    private Optional<NeedType> needType;
 }
-

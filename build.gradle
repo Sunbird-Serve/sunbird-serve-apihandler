@@ -1,7 +1,6 @@
 plugins {
 	id 'java'
 	id 'war'
-
 	id 'org.springframework.boot' version '3.1.2'
 	id 'io.spring.dependency-management' version '1.1.2'
 }
@@ -9,10 +8,10 @@ plugins {
 group = 'com.evidyaloka'
 version = '0.0.1-SNAPSHOT'
 
-
 java {
 	sourceCompatibility = '17'
 }
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -25,16 +24,11 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	//Spring Data
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-	//DynamoDB
-	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.57'
-	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
 
 	//Lombok
 	compileOnly "org.projectlombok:lombok"
@@ -42,7 +36,6 @@ dependencies {
 
 	//JWT
 	implementation 'com.auth0:java-jwt:4.4.0'
-
 
 	//Postgres
 	implementation 'org.postgresql:postgresql'

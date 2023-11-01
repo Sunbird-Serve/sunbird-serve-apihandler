@@ -30,8 +30,21 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<User> getUserByEmail(String email, Map<String, String> headers) {
-        return rcService.getUserByEmail(email);
+        List<User> allUsers = rcService.getUsers();
+        List<User> emailUsers = allUsers.stream()
+                .filter(s -> s.getContactDetails().getEmail().equalsIgnoreCase(email)).toList();
+        return ResponseEntity.ok(emailUsers.get(0));
     }
+
+
+    @Override
+    public ResponseEntity<List<User>> getAllUsers(Map<String, String> headers) {
+        List<User> allUsers = rcService.getUsers();
+        return ResponseEntity.ok(allUsers);
+    }
+
+
+
 
     @Override
     public ResponseEntity<RcUserResponse> createUser(UserRequest userRequest, Map<String, String> headers) {
@@ -42,4 +55,6 @@ public class UserController implements UserApi {
     public ResponseEntity<RcUserResponse> updateUser(String userId, UserRequest userRequest, Map<String, String> headers) {
         return rcService.updateUser(userRequest, userId);
     }
+
+
 }
