@@ -19,16 +19,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class NeedRequirement {
-
+public class Occurrence {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String skillDetails;
-    private String occurrenceId;
-    private String volunteersRequired;
-    private String priority;
+    private Instant startDate;
+    private Instant endDate;
+
+    private String days;
+    private String frequency;
 
     @CreationTimestamp
     private Instant createdAt;

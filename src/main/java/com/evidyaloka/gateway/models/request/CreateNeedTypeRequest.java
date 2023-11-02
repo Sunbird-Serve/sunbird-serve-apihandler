@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateNeedTypeRequest {
 
-    public NeedTypeRequest needTypeRequest;
-    public NeedRequirementRequest needRequirementRequest;
+    private NeedTypeRequest needTypeRequest;
+    private NeedRequirementRequest needRequirementRequest;
 }

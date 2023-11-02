@@ -11,10 +11,9 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NeedRequirementRequest {
+public class TimeSlotRequest {
 
-    private String skillDetails;
-    private String volunteersRequired;
-    private OccurrenceRequest occurrence;
-    private String priority;
+    private Instant startTime;
+    private Instant endTime;
+    private String day;
 }

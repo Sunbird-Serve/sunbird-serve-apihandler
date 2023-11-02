@@ -9,7 +9,6 @@ import com.evidyaloka.gateway.models.response.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -37,18 +36,9 @@ public class RcService {
                 .block();
     }
 
-    public ResponseEntity<User> getUserByEmail(String email) {
+    public List<User> getUsers() {
         ResponseEntity<List<User>> responseEntity = listUsers("Active");
-        List<User> allUsersList = responseEntity.getBody();
-        if(allUsersList!=null) {
-            User user = allUsersList.stream()
-                    .filter(s -> s.getContactDetails().getEmail().equalsIgnoreCase(email))
-                    .findAny().orElse(null);
-            return
-                    ResponseEntity.ok().body(user);
-        }
-        return
-                ResponseEntity.ok().body(null);
+        return responseEntity.getBody();
     }
 
     /*public ResponseEntity<List<User>> getUserByEmail(String email) {
@@ -104,7 +94,7 @@ public class RcService {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(UsersSearchPage.builder()
                         .offset(0)
-                        .limit(10)
+                        .limit(500)
                         .filters(StatusFilter.builder()
                                 .status(Status.builder()
                                         .eq(status)
@@ -116,5 +106,25 @@ public class RcService {
                 .retrieve()
                 .toEntityList(User.class)
                 .block();
+    }
+
+    public ResponseEntity<List<User>> getAllusers(List<User> allUsers) {
+        return rcClient.post()
+                .uri("/Users/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(UsersSearchPage.builder()
+                        .offset(0)
+                        .limit(10)
+                        .filters(StatusFilter.builder()
+                                .status(Status.builder()
+                                        .build())
+                                .build())
+                        .build()
+                )
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .toEntityList(User.class)
+                .block();
+
     }
 }

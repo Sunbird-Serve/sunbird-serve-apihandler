@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RaiseNeedRequest {
-    public NeedRequest needRequest;
-    public NeedRequirementRequest needRequirementRequest;
+    private NeedRequest needRequest;
+    private NeedRequirementRequest needRequirementRequest;
 }

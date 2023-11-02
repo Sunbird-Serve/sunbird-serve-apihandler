@@ -23,7 +23,7 @@ import java.util.UUID;
 public class NeedType {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.SEQUENCE)
+   @GeneratedValue(strategy = GenerationType.UUID)
    private UUID id;
 
    private String description;

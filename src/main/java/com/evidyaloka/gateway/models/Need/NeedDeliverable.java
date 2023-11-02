@@ -1,9 +1,9 @@
 package com.evidyaloka.gateway.models.Need;
 
+import com.evidyaloka.gateway.models.enums.NeedDeliverableStatus;
+import com.evidyaloka.gateway.models.enums.NeedStatus;
+import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -19,16 +20,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class NeedRequirement {
+public class NeedDeliverable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String skillDetails;
-    private String occurrenceId;
-    private String volunteersRequired;
-    private String priority;
+    @Enumerated(EnumType.STRING)
+    private NeedDeliverableStatus status;
+
+    private String needPlanId;
+    private String comments;
+    private LocalDate deliverableDate;
 
     @CreationTimestamp
     private Instant createdAt;

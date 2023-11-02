@@ -1,9 +1,8 @@
 package com.evidyaloka.gateway.models.Need;
 
+import com.evidyaloka.gateway.models.enums.NeedStatus;
+import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,16 +18,20 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class NeedRequirement {
+public class NeedPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String skillDetails;
+    private String assignedUserId;
+    private String needId;
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private NeedStatus status;
+
     private String occurrenceId;
-    private String volunteersRequired;
-    private String priority;
 
     @CreationTimestamp
     private Instant createdAt;

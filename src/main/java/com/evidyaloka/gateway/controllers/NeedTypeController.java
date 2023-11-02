@@ -3,10 +3,14 @@ package com.evidyaloka.gateway.controllers;
 import com.evidyaloka.gateway.api.NeedTypeApi;
 import com.evidyaloka.gateway.models.Need.NeedRequirement;
 import com.evidyaloka.gateway.models.Need.NeedType;
+import com.evidyaloka.gateway.models.Need.Occurrence;
+import com.evidyaloka.gateway.models.Need.TimeSlot;
 import com.evidyaloka.gateway.models.enums.NeedTypeStatus;
 import com.evidyaloka.gateway.models.request.CreateNeedTypeRequest;
 import com.evidyaloka.gateway.repositories.NeedRequirementRepository;
 import com.evidyaloka.gateway.repositories.NeedTypeRepository;
+import com.evidyaloka.gateway.repositories.OccurrenceRepository;
+import com.evidyaloka.gateway.repositories.TimeSlotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,6 +32,9 @@ public class NeedTypeController implements NeedTypeApi {
 
     private final NeedTypeRepository needTypeRepository;
     private final NeedRequirementRepository needRequirementRepository;
+
+    private final OccurrenceRepository occurrenceRepository;
+    private final TimeSlotRepository timeSlotRepository;
 
     @Override
     public NeedType getNeedTypeById(String needTypeId, Map<String, String> headers) {
@@ -40,27 +48,45 @@ public class NeedTypeController implements NeedTypeApi {
 
     @Override
     public NeedType createNeedType(CreateNeedTypeRequest request, Map<String, String> headers) {
+        Occurrence occurrence = occurrenceRepository.save(
+                Occurrence.builder()
+                        .days(request.getNeedRequirementRequest().getOccurrence().getDays())
+                        .frequency(request.getNeedRequirementRequest().getOccurrence().getFrequency())
+                        .startDate(request.getNeedRequirementRequest().getOccurrence().getStartDate())
+                        .endDate(request.getNeedRequirementRequest().getOccurrence().getEndDate())
+                        .build()
+        );
+
+        timeSlotRepository.saveAll(
+                request.getNeedRequirementRequest()
+                        .getOccurrence().getTimeSlots()
+                        .stream().map(req -> TimeSlot.builder()
+                                .day(req.getDay())
+                                .startTime(req.getStartTime())
+                                .endTime(req.getEndTime())
+                                .occurrenceId(occurrence.getId().toString())
+                                .build()).toList()
+        );
+
         NeedRequirement needRequirement = needRequirementRepository.save(
                 NeedRequirement.builder()
-                        .frequency(request.needRequirementRequest.getFrequency())
-                        .priority(request.needRequirementRequest.getPriority())
-                        .skillDetails(request.needRequirementRequest.getSkillDetails())
-                        .volunteersRequired(request.needRequirementRequest.getVolunteersRequired())
-                        .startDate(request.needRequirementRequest.getStartDate())
-                        .endDate(request.needRequirementRequest.getEndDate())
+                        .priority(request.getNeedRequirementRequest().getPriority())
+                        .skillDetails(request.getNeedRequirementRequest().getSkillDetails())
+                        .volunteersRequired(request.getNeedRequirementRequest().getVolunteersRequired())
+                        .occurrenceId(occurrence.getId().toString())
                         .build()
         );
 
         return needTypeRepository.save(
                 NeedType.builder()
-                        .name(request.needTypeRequest.getName())
+                        .name(request.getNeedTypeRequest().getName())
                         .requirementId(needRequirement.getId().toString())
-                        .description(request.needTypeRequest.getDescription())
-                        .onboardingId(request.needTypeRequest.getOnboardingId())
-                        .userId(request.needTypeRequest.getUserId())
-                        .taxonomyId(request.needTypeRequest.getTaxonomyId())
-                        .taskType(request.needTypeRequest.getTaskType())
-                        .status(request.needTypeRequest.getStatus())
+                        .description(request.getNeedTypeRequest().getDescription())
+                        .onboardingId(request.getNeedTypeRequest().getOnboardingId())
+                        .userId(request.getNeedTypeRequest().getUserId())
+                        .taxonomyId(request.getNeedTypeRequest().getTaxonomyId())
+                        .taskType(request.getNeedTypeRequest().getTaskType())
+                        .status(request.getNeedTypeRequest().getStatus())
                         .build()
         );
     }
