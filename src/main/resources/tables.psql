@@ -1,0 +1,95 @@
+CREATE TABLE need(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	need_type_id VARCHAR(255) NOT NULL,
+   	description TEXT DEFAULT NULL,
+	need_purpose TEXT DEFAULT NULL,
+	entity_id VARCHAR(255) NOT NULL,
+	user_id VARCHAR(255) NOT NULL,
+	requirement_id UUID NOT NULL,
+	name VARCHAR(255) DEFAULT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'New',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE entity(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	website VARCHAR(255) DEFAULT NULL,
+	name VARCHAR(255) DEFAULT NULL,
+	category VARCHAR(255) DEFAULT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'New',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE need_requirement(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	skill_details TEXT DEFAULT NULL,
+	priority VARCHAR(255) DEFAULT null;
+	volunteers_required VARCHAR(255) DEFAULT NULL,
+	occurrence_id VARCHAR(255) DEFAULT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE need_type(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	description TEXT DEFAULT NULL,
+	taxonomy_id VARCHAR(255) NOT NULL,
+	user_id VARCHAR(255) NOT NULL,
+	requirement_id VARCHAR(255) NOT NULL,
+	onboarding_id VARCHAR(255) NOT NULL,
+	name VARCHAR(255) DEFAULT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'New',
+	task_type VARCHAR(50) NOT NULL DEFAULT 'Task',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE need_plan(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	name VARCHAR(255) DEFAULT NULL,
+	assigned_user_id VARCHAR(255) NOT NULL,
+	need_id VARCHAR(255) NOT NULL,
+	name VARCHAR(255) DEFAULT NULL,
+	occurrence_id VARCHAR(255) DEFAULT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'New',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE need_deliverable(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+	comments TEXT DEFAULT NULL,
+	need_plan_id VARCHAR(255) NOT NULL,
+	deliverable_date TIMESTAMP NOT NULL,
+	status VARCHAR(50) NOT NULL DEFAULT 'NotStarted',
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE occurrence(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+	frequency TEXT DEFAULT NULL,
+	start_date TIMESTAMP NOT NULL,
+    end_date TIMESTAMP NOT NULL,
+    days TEXT DEFAULT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE time_slot(
+   	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   	occurrence_id VARCHAR(255) DEFAULT NULL,
+   	day VARCHAR(255) DEFAULT NULL,
+	start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE need_plan
+ADD COLUMN  occurrence_id VARCHAR(255) DEFAULT NULL,
+DROP COLUMN start_date,
+DROP COLUMN end_date,
+DROP COLUMN frequency
